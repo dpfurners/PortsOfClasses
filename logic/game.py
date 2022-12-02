@@ -5,6 +5,8 @@ from typing import List
 from common.constants import *
 from ui.main_menu import MainMenu
 
+from models import Company, ShipBase
+
 
 class Game:
     def __init__(self):
@@ -19,11 +21,13 @@ class Game:
 
         self.screens = {""}
 
+        self.ships: List[ShipBase] = []
+
     def start(self):
         menu = MainMenu(self.screen, self.clock, self.bg, self.font,
                         self.game)
         menu.startup_screen()
 
     def game(self, company_name: str):
-        print(company_name)
+        comp = Company(company_name)
 
