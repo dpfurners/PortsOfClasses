@@ -1,4 +1,7 @@
+import random
+
 import pygame
+import json
 
 from typing import List
 
@@ -22,11 +25,18 @@ class Game:
         self.screens = {""}
 
         self.ships: List[ShipBase] = []
+        self.load_ships()
 
     def start(self):
         menu = MainMenu(self.screen, self.clock, self.bg, self.font,
                         self.game)
         menu.startup_screen()
+
+    def load_ships(self, file_name: str = r"./resources/data/ships.json"):
+        with open(file_name, "r") as file:
+            data = json.load(file)
+        for ship in data:
+            self.ships.append(ShipBase(ship, random.choice(SHIP_NAMES), data[ship]["price"], data[ship]["capacity"]))
 
     def game(self, company_name: str):
         comp = Company(company_name)

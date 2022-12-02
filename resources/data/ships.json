@@ -1,0 +1,30 @@
+{
+  "Sicken": {
+    "price": 50000,
+    "capacity": 50000
+  },
+  "Lomme": {
+    "price": 125000,
+    "capacity": 100000
+  },
+  "Paranzella": {
+    "price": 150000,
+    "capacity": 170000
+  },
+  "Quatze": {
+    "price": 220000,
+    "capacity": 200000
+  },
+  "Trawler": {
+    "price": 400000,
+    "capacity": 500000
+  },
+  "Tanker": {
+    "price": 750000,
+    "capacity": 1000000
+  },
+  "Frachter": {
+    "price": 5000000,
+    "capacity": 50000000
+  }
+}
