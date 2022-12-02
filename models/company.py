@@ -11,9 +11,10 @@ class Company:
 
     def buy_ship(self, ship):
         if ship.price > self._money:
-            return
+            return False
         self._money -= ship.price
         self.ships.append(ship)
+        return True
 
     def sell_ship(self, ship):
         self._money += ship.value

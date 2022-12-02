@@ -1,5 +1,6 @@
 import pygame
 import sys
+import random
 from math import floor
 
 from typing import List
@@ -8,6 +9,7 @@ from ui.screen import Screen
 from models import Company, ShipBase
 from common.helpers import draw_text
 from common.colors import FONT_DARK, WHITE
+from common.constants import SHIP_NAMES
 
 
 class ShipShop(Screen):
@@ -81,8 +83,12 @@ class ShipShop(Screen):
                             self.inspect = None
                             pygame.time.wait(100)
                         elif field == "buy":
-                            self.company.buy_ship(self.inspect)
-                            self.inspect = None
+                            if self.company.buy_ship(self.inspect) is True:
+                                name = random.choice(SHIP_NAMES)
+                                while name in [s.name for s in self.ships]:
+                                    name = random.choice(SHIP_NAMES)
+                                self.ships[self.ships.index(self.inspect)] = ShipBase(self.inspect.type, name, self.inspect.price, self.inspect.capacity, self.inspect.picture)
+                                self.inspect = None
                             pygame.time.wait(100)
                         else:
                             self.inspect = fields[field][0]
