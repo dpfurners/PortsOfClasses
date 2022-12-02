@@ -7,6 +7,7 @@ from typing import List
 
 from common.constants import *
 from ui.main_menu import MainMenu
+from ui.ships import ShipShop
 
 from models import Company, ShipBase
 
@@ -20,9 +21,9 @@ class Game:
         self.clock = pygame.time.Clock()
         self.font = pygame.font.SysFont(None, 50)
 
-        self.bg = pygame.image.load("./resources/textures/background.jpg")
+        self.bg = pygame.image.load("./resources/textures/background.jpg", "background")
 
-        self.screens = {""}
+        self.screens = {}
 
         self.ships: List[ShipBase] = []
         self.load_ships()
@@ -43,4 +44,6 @@ class Game:
 
     def game(self, company_name: str):
         comp = Company(company_name)
+        self.screens["ships"] = ShipShop(comp, self.ships, self.bg, self.screen, self.clock)
+        self.screens["ships"].startup_screen()
 

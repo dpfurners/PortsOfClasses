@@ -37,7 +37,8 @@ class MainMenu(Screen):
             mx, my = pygame.mouse.get_pos()
             if start_button.collidepoint((mx, my)):
                 if click:
-                    self.start_button_action(comp_name)
+                    if comp_name:
+                        self.start_button_action(comp_name)
 
             pygame.draw.rect(self.screen, (0, 161, 255), start_button, 0, 4)
             draw_text("START", FONT_DARK, self.screen, 230, 435, 50)

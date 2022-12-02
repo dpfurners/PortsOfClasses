@@ -10,11 +10,13 @@ class Company:
         return self._name
 
     def buy_ship(self, ship):
-        self.money -= ship.price
+        if ship.price > self._money:
+            return
+        self._money -= ship.price
         self.ships.append(ship)
 
     def sell_ship(self, ship):
-        self.money += ship.value
+        self._money += ship.value
         self.ships.remove(ship)
 
     @property
