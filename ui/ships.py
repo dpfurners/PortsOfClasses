@@ -48,6 +48,8 @@ class ShipShop(Screen):
         draw_text(ship.name, FONT_DARK, self.screen, 80, 130, 60)
         draw_text(ship.type, FONT_DARK, self.screen, 85, 170, 40)
 
+        self.screen.blit(ship.picture, (100, 200))
+
         draw_text(f"Capacity: {ship.capacity:_}", FONT_DARK, self.screen, 85, 570, 40)
         draw_text(f"Price: {ship.price:_}$", FONT_DARK, self.screen, 85, 610, 40)
 

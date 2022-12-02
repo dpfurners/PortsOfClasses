@@ -1,15 +1,17 @@
+import pygame
 from models import Company
 from typing import Tuple
 
 
 class ShipBase:
-    def __init__(self, type: str, name: str, price: int, capacity: int):
+    def __init__(self, type: str, name: str, price: int, capacity: int, picture: pygame.Surface):
         self.type: str = type
         self._name: str = name
         self._owner: Company | None = None
         self.value: int | None = None
         self.price: int = price
         self.capacity: int = capacity
+        self.picture: pygame.Surface = picture
 
         # self.state: int = 100
         # self.damages: list = []

@@ -40,7 +40,8 @@ class Game:
             name = random.choice(SHIP_NAMES)
             while name in [s.name for s in self.ships]:
                 name = random.choice(SHIP_NAMES)
-            self.ships.append(ShipBase(ship, name, data[ship]["price"], data[ship]["capacity"]))
+            pic = pygame.image.load(data[ship]["picture"])
+            self.ships.append(ShipBase(ship, name, data[ship]["price"], data[ship]["capacity"], pic))
 
     def game(self, company_name: str):
         comp = Company(company_name)
