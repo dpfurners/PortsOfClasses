@@ -36,7 +36,10 @@ class Game:
         with open(file_name, "r") as file:
             data = json.load(file)
         for ship in data:
-            self.ships.append(ShipBase(ship, random.choice(SHIP_NAMES), data[ship]["price"], data[ship]["capacity"]))
+            name = random.choice(SHIP_NAMES)
+            while name in [s.name for s in self.ships]:
+                name = random.choice(SHIP_NAMES)
+            self.ships.append(ShipBase(ship, name, data[ship]["price"], data[ship]["capacity"]))
 
     def game(self, company_name: str):
         comp = Company(company_name)
