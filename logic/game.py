@@ -67,7 +67,6 @@ class Game:
 
     def game(self, company_name: str):
         comp = Company(company_name)
-        print(self.harbors)
         self.setup_screens(comp)
         self.screens["ships"].startup_screen()
 

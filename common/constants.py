@@ -9,3 +9,6 @@ SHIP_NAMES = ["Albatross", "Althea", "Aurora", "Avalon", "Bethia", "Bismarck", "
               "Hoppetosse", "Independence", "Intrepid", "Isis", "Kon-Tik", "Lusitania", "Mayflower", "Oceanic", "Olympic", "Orion",
               "Pamir", "Pandora", "Passat", "Pegasus", "Polaris", "Poseidon", "Potosi", "Rainbow", "Santa Maria", "Serendipity",
               "Serenity", "Sputnik", "Vasco da Gama", "Voyager", "Yamal"]
+
+OVERVIEW_MENU_X = 15
+OVERVIEW_MENU_Y = 485

@@ -5,6 +5,7 @@ from ui.screen import Screen
 from ui.harbor import HarborScreen
 from common.helpers import draw_text
 from common.colors import FONT_DARK, WHITE
+from common.constants import OVERVIEW_MENU_X, OVERVIEW_MENU_Y
 
 from models import Company
 
@@ -20,23 +21,37 @@ class OverviewScreen(Screen):
 
         self.anker = pygame.image.load("./resources/textures/pins/anker.png")
         self.boat = pygame.image.load("./resources/textures/pins/boat_pin.png")
+        self.contract = pygame.image.load("./resources/textures/contracts.png")
 
     def display_harbors(self):
         for harbor in self.harbor_overview.harbors:
             self.screen.blit(self.anker, harbor.position)
 
     def load_menu(self):
-        pygame.draw.rect(self.screen, (255, 255, 255), pygame.Rect(15, 485, 150, 200), 0, 2)
-
-        # Display Harbor
-        harbor_btn = pygame.Rect(15, 485, 150, 30)
-        self.screen.blit(self.anker, (23, 490))
-        draw_text("Harbors", FONT_DARK, self.screen, 55, 495, 25)
+        pygame.draw.rect(self.screen, (255, 255, 255), pygame.Rect(OVERVIEW_MENU_X, OVERVIEW_MENU_Y, 150, 100), 0, 2)
+        draw_text("Your:", FONT_DARK, self.screen, OVERVIEW_MENU_X + 5, OVERVIEW_MENU_Y + 5, 30)
+        # Display Contracts
+        contracts_btn = pygame.Rect(OVERVIEW_MENU_X, OVERVIEW_MENU_Y + 23, 150, 33)
+        self.screen.blit(self.contract, (OVERVIEW_MENU_X + 8, OVERVIEW_MENU_Y + 30))
+        draw_text("Contracts", FONT_DARK, self.screen, OVERVIEW_MENU_X + 40, OVERVIEW_MENU_Y + 35, 25)
 
         # Display Own Ships
-        ships_btn = pygame.Rect(15, 515, 150, 30)
-        self.screen.blit(self.boat, (20, 520))
-        draw_text("Your Ships", FONT_DARK, self.screen, 55, 525, 25)
+        own_ships_btn = pygame.Rect(OVERVIEW_MENU_X, OVERVIEW_MENU_Y + 57, 150, 35)
+        self.screen.blit(self.boat, (OVERVIEW_MENU_X + 5, OVERVIEW_MENU_Y + 60))
+        draw_text("Ships", FONT_DARK, self.screen, OVERVIEW_MENU_X + 40, OVERVIEW_MENU_Y + 65, 25)
+
+        pygame.draw.rect(self.screen, (255, 255, 255), pygame.Rect(OVERVIEW_MENU_X, OVERVIEW_MENU_Y + 105, 150, 100), 0, 2)
+        draw_text("Available:", FONT_DARK, self.screen, OVERVIEW_MENU_X + 5, OVERVIEW_MENU_Y + 110, 30)
+
+        # Display Harbors
+        harbor_btn = pygame.Rect(OVERVIEW_MENU_X, OVERVIEW_MENU_Y + 128, 150, 35)
+        self.screen.blit(self.anker, (OVERVIEW_MENU_X + 8, OVERVIEW_MENU_Y + 135))
+        draw_text("Harbors", FONT_DARK, self.screen, OVERVIEW_MENU_X + 40, OVERVIEW_MENU_Y + 140, 25)
+
+        # Display Ship Shop
+        ships_shops_btn = pygame.Rect(OVERVIEW_MENU_X, OVERVIEW_MENU_Y + 164, 150, 35)
+        self.screen.blit(self.boat, (OVERVIEW_MENU_X + 5, OVERVIEW_MENU_Y + 167))
+        draw_text("Ships", FONT_DARK, self.screen, OVERVIEW_MENU_X + 40, OVERVIEW_MENU_Y + 172, 25)
 
     def startup_screen(self):
         run = True
