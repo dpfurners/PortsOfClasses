@@ -7,7 +7,7 @@ from typing import List
 
 from ui.screen import Screen
 from models import Company, ShipBase
-from common.helpers import draw_text
+from common.helpers import draw_text, new_button
 from common.colors import FONT_DARK, WHITE
 from common.constants import SHIP_NAMES
 
@@ -30,8 +30,7 @@ class ShipShop(Screen):
                 x = y = 0
                 x = 75 if (index + 1) % 2 == 1 else 500
                 y = 105 * (floor(index/2) + 1) + 20
-                rect = pygame.Rect(x, y, 420, 100)
-                pygame.draw.rect(self.screen, (0, 161, 255), rect, 0, 2)
+                rect = new_button(self.screen, (x, y), (420, 100), color=(0, 161, 255))
                 draw_text(ship.name, FONT_DARK, self.screen, x+5, y+5, 35)      # Display Ship Name
                 draw_text(ship.type, FONT_DARK, self.screen, x+5, y+30, 20)   # Display Ship Type
 
@@ -44,9 +43,7 @@ class ShipShop(Screen):
         fields = {}
         pygame.draw.rect(self.screen, (0, 161, 255), pygame.Rect(75, 125, 845, 520), 0, 3)
 
-        back = pygame.Rect(864, 65, 50, 50)
-        # pygame.draw.rect(self.screen, (255, 161, 0), back, 0, 3)
-        self.screen.blit(pygame.image.load("./resources/textures/cross.png"), (864, 65))
+        back = new_button(self.screen, (864, 65), (50, 50), picture="./resources/textures/cross.png")
         fields["back"] = [0, back]
 
         draw_text(ship.name, FONT_DARK, self.screen, 80, 130, 60)
@@ -57,9 +54,7 @@ class ShipShop(Screen):
         draw_text(f"Capacity: {ship.capacity:_}", FONT_DARK, self.screen, 85, 570, 40)
         draw_text(f"Price: {ship.price:_}$", FONT_DARK, self.screen, 85, 610, 40)
 
-        buy = pygame.Rect(720, 450, 200, 200)
-        self.screen.blit(pygame.image.load("./resources/textures/buy.png"), (720, 450))
-        # pygame.draw.rect(self.screen, (255, 161, 0), buy, 0, 3)
+        buy = new_button(self.screen, (720, 450), (200, 200), picture="./resources/textures/buy.png")
         fields["buy"] = [0, buy]
         return fields
 
@@ -80,9 +75,7 @@ class ShipShop(Screen):
                 fields = self.display_available_ships()
 
             if self.company.ships:
-                go_on = pygame.Rect(864, 65, 50, 50)
-                self.screen.blit(pygame.image.load("./resources/textures/cross.png"), (864, 65))
-                # pygame.draw.rect(self.screen, (255, 161, 0), go_on, 0, 2)
+                go_on = new_button(self.screen, (864, 65), (50, 50), picture="./resources/textures/cross.png")
                 fields["go_on"] = [0, go_on]
 
             mx, my = pygame.mouse.get_pos()

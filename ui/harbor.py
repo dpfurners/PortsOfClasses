@@ -4,7 +4,7 @@ from ui.screen import Screen
 from models import HarborBase, Company, ShipBase, ContractBase
 from common.constants import HARBORS_PER_PAGE
 from typing import List
-from common.helpers import draw_text
+from common.helpers import draw_text, new_button
 from common.colors import FONT_DARK, WHITE
 
 
@@ -53,8 +53,7 @@ class HarborScreen(Screen):
             x = y = 0
             x = 500
             y = 55 * (floor(index)) + 125
-            rect = pygame.Rect(x, y, 420, 50)
-            pygame.draw.rect(self.screen, (0, 161, 255), rect, 0, 2)
+            rect = new_button(self.screen, (x, y), (420, 50), color=(0, 161, 255))
             draw_text(contract.destination.name, FONT_DARK, self.screen, x + 5, y + 5, 35)  # Display Harbor Name
             draw_text(f"Quantity: {contract.quantity:_}", FONT_DARK, self.screen, x + 5, y + 30, 20)  # Display Harbor Country
             draw_text(f"Pricing: {contract.total:_}$", FONT_DARK, self.screen, x + 205, y + 30, 20)
@@ -82,9 +81,7 @@ class HarborScreen(Screen):
             self.display_available_harbors()
             self.display_contracts()
 
-            go_on = pygame.Rect(864, 65, 50, 50)
-            self.screen.blit(pygame.image.load("./resources/textures/cross.png"), (864, 65))
-            # pygame.draw.rect(self.screen, (255, 161, 0), go_on, 0, 2)
+            go_on = new_button(self.screen, (864, 65), (50, 50), picture="./resources/textures/cross.png")
             self.fields["go_on"] = [0, go_on]
 
             mx, my = pygame.mouse.get_pos()

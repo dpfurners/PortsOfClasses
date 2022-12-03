@@ -7,7 +7,7 @@ from typing import List
 
 from ui.screen import Screen
 from models import Company, ShipBase, ContractBase
-from common.helpers import draw_text
+from common.helpers import draw_text, new_button
 from common.colors import FONT_DARK, WHITE
 from common.constants import SHIP_NAMES
 
@@ -46,13 +46,10 @@ class ContractScreen(Screen):
             draw_text(f"Goods: {self.contract.goods}", FONT_DARK, self.screen, 85, 230, 35)
             draw_text(f"Time: {self.contract.time.strftime('%M:%S')}", FONT_DARK, self.screen, 85, 260, 35)
 
-            select_ship = pygame.Rect(820, 505, 50, 50)
-            self.screen.blit(pygame.image.load("./resources/textures/sign.png"), (820, 505))
+            select_ship = new_button(self.screen, (820, 505), (100, 100), picture="./resources/textures/sign.png")
             self.fields["select_ship"] = [0, select_ship]
 
-            go_on = pygame.Rect(864, 65, 50, 50)
-            self.screen.blit(pygame.image.load("./resources/textures/cross.png"), (864, 65))
-            # pygame.draw.rect(self.screen, (255, 161, 0), go_on, 0, 2)
+            go_on = new_button(self.screen, (864, 65), (50, 50), picture="./resources/textures/cross.png")
             self.fields["go_on"] = [0, go_on]
 
             mx, my = pygame.mouse.get_pos()
