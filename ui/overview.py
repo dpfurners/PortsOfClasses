@@ -3,6 +3,8 @@ import sys
 
 from ui.screen import Screen
 from ui.harbor import HarborScreen
+from common.helpers import draw_text
+from common.colors import FONT_DARK, WHITE
 
 from models import Company
 
@@ -23,15 +25,28 @@ class OverviewScreen(Screen):
         for harbor in self.harbor_overview.harbors:
             self.screen.blit(self.anker, harbor.position)
 
+    def load_menu(self):
+        pygame.draw.rect(self.screen, (255, 255, 255), pygame.Rect(15, 485, 150, 200), 0, 2)
+
+        # Display Harbor
+        harbor_btn = pygame.Rect(15, 485, 150, 30)
+        self.screen.blit(self.anker, (23, 490))
+        draw_text("Harbors", FONT_DARK, self.screen, 55, 495, 25)
+
+        # Display Own Ships
+        ships_btn = pygame.Rect(15, 515, 150, 30)
+        self.screen.blit(self.boat, (20, 520))
+        draw_text("Your Ships", FONT_DARK, self.screen, 55, 525, 25)
+
     def startup_screen(self):
         run = True
         fields = {}
         click = False
         while run:
             self.screen.blit(self.bg, (0, 0))
-            # pygame.draw.rect(self.screen, (255, 255, 255), pygame.Rect(50, 50, 900, 600), 0, 5)
 
             self.display_harbors()
+            self.load_menu()
 
             mx, my = pygame.mouse.get_pos()
             # print(fields)

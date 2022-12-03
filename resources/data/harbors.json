@@ -1,16 +1,79 @@
 {
-  "New-Your-Harbor": {
+  "Boston Harbor": {
     "description": "",
     "country": "America",
     "capacity": 1,
     "position": [265, 275],
     "picture": "./resources/textures/harbor_pictures/harbor_ny.png"
   },
-  "Houston-Ship-Channel": {
+  "Port Freeport": {
     "description": "",
     "country": "America",
     "capacity": 3,
     "position": [205, 320],
+    "picture": "./resources/textures/harbor_pictures/harbor_hsc.png"
+  },
+  "Ports in Bones Festes": {
+    "description": "",
+    "country": "Spain",
+    "capacity": 2,
+    "position": [485, 285],
+    "picture": "./resources/textures/harbor_pictures/harbor_hsc.png"
+  },
+  "Muelle Sur del Callao": {
+    "description": "",
+    "country": "Peru",
+    "capacity": 1,
+    "position": [245, 435],
+    "picture": "./resources/textures/harbor_pictures/harbor_hsc.png"
+  },
+  "Ports of Mariupol": {
+    "description": "",
+    "country": "Ukraine",
+    "capacity": 3,
+    "position": [580, 255],
+    "picture": "./resources/textures/harbor_pictures/harbor_hsc.png"
+  },
+  "Ports of Auchland": {
+    "description": "",
+    "country": "New Zealand",
+    "capacity": 3,
+    "position": [980, 520],
+    "picture": "./resources/textures/harbor_pictures/harbor_hsc.png"
+  },
+  "Puerto San Antonio Este": {
+    "description": "",
+    "country": "Argentina",
+    "capacity": 3,
+    "position": [290, 545],
+    "picture": "./resources/textures/harbor_pictures/harbor_hsc.png"
+  },
+  "Port of Montevideo": {
+    "description": "",
+    "country": "Uruguay",
+    "capacity": 3,
+    "position": [315, 520],
+    "picture": "./resources/textures/harbor_pictures/harbor_hsc.png"
+  },
+  "Porto Colon": {
+    "description": "",
+    "country": "Panama",
+    "capacity": 3,
+    "position": [240, 380],
+    "picture": "./resources/textures/harbor_pictures/harbor_hsc.png"
+  },
+  "Ports Of Vancouver": {
+    "description": "",
+    "country": "Canada",
+    "capacity": 3,
+    "position": [115, 240],
+    "picture": "./resources/textures/harbor_pictures/harbor_hsc.png"
+  },
+  "Porto de Belem": {
+    "description": "",
+    "country": "Brazil",
+    "capacity": 3,
+    "position": [330, 405],
     "picture": "./resources/textures/harbor_pictures/harbor_hsc.png"
   }
 }
