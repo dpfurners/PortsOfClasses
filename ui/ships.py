@@ -92,7 +92,7 @@ class ShipShop(Screen):
                                     name = random.choice(SHIP_NAMES)
                                 self.ships[self.ships.index(self.inspect)] = ShipBase(self.inspect.type, name, self.inspect.price, self.inspect.capacity, self.inspect.picture)
                                 self.inspect = None
-                                fields.pop(field)
+                                self.fields.pop(field)
                                 break
                             pygame.time.wait(100)
                         elif field == "go_on":
