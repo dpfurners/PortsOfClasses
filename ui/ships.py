@@ -122,33 +122,34 @@ class ShipDepot(Screen):
         self.bg = bg
         self.company = company
         self.back_action = None
+        self.select: bool = False
 
         self.inspect: ShipBase | None = None
 
-    def display_available_ships(self):
+    def display_owned_ships(self):
         fields = {}
-        if len(self.ships) <= 10:
+        if len(self.company.ships) <= 10:
             for index, ship in enumerate(self.company.ships):
                 x = y = 0
                 x = 75 if (index + 1) % 2 == 1 else 500
                 y = 105 * (floor(index/2) + 1) + 20
                 rect = pygame.Rect(x, y, 420, 100)
                 pygame.draw.rect(self.screen, (0, 161, 255), rect, 0, 2)
-                draw_text(ship.name, FONT_DARK, self.screen, x+5, y+5, 35)      # Display Ship Name
+                draw_text(ship.name, FONT_DARK, self.screen, x+5, y+5, 35)    # Display Ship Name
                 draw_text(ship.type, FONT_DARK, self.screen, x+5, y+30, 20)   # Display Ship Type
 
                 draw_text(f"Capacity: {ship.capacity:_}", FONT_DARK, self.screen, x+5, y+50, 30)
                 draw_text(f"Price: {ship.price:_}$", FONT_DARK, self.screen, x+5, y+72.5, 35)
+                if ship.contract:
+                    draw_text(ship.contract.time.strftime("%M:%S"), FONT_DARK, self.screen, x+300, y+30, 60)
                 fields[ship] = [ship, rect]
         return fields
 
-    def display_ship(self, ship):
+    def display_ship(self, ship: ShipBase):
         fields = {}
         pygame.draw.rect(self.screen, (0, 161, 255), pygame.Rect(75, 125, 845, 520), 0, 3)
 
-        back = pygame.Rect(864, 65, 50, 50)
-        # pygame.draw.rect(self.screen, (255, 161, 0), back, 0, 3)
-        self.screen.blit(pygame.image.load("./resources/textures/cross.png"), (864, 65))
+        back = new_button(self.screen, (864, 65), (50, 50), picture="./resources/textures/cross.png")
         fields["back"] = [0, back]
 
         draw_text(ship.name, FONT_DARK, self.screen, 80, 130, 60)
@@ -158,14 +159,19 @@ class ShipDepot(Screen):
 
         draw_text(f"Capacity: {ship.capacity:_}", FONT_DARK, self.screen, 85, 570, 40)
         draw_text(f"Price: {ship.price:_}$", FONT_DARK, self.screen, 85, 610, 40)
+        if ship.contract:
+            draw_text(f"Contract: {ship.contract.source.name} -> {ship.contract.destination.name}", FONT_DARK, self.screen, 500, 570, 20)
+            draw_text(f"Total: {ship.contract.total}", FONT_DARK, self.screen, 500, 590, 15)
+            draw_text(f"Quantity: {ship.contract.quantity}", FONT_DARK, self.screen, 500, 600, 15)
+            draw_text(f"Time: {ship.contract.time.strftime('%M:%S')}", FONT_DARK, self.screen, 500, 610, 15)
 
-        buy = pygame.Rect(720, 450, 200, 200)
-        self.screen.blit(pygame.image.load("./resources/textures/buy.png"), (720, 450))
-        # pygame.draw.rect(self.screen, (255, 161, 0), buy, 0, 3)
-        fields["buy"] = [0, buy]
+        if self.select:
+            select = new_button(self.screen, (720, 550), (200, 100), picture="./resources/textures/arrow.png")
+            fields["select"] = [0, select]
         return fields
 
-    def startup_screen(self):
+    def startup_screen(self, select: bool = False):
+        self.select = select
         run = True
         fields = {}
         click = False
@@ -179,7 +185,7 @@ class ShipDepot(Screen):
             if isinstance(self.inspect, ShipBase):
                 fields = self.display_ship(self.inspect)
             else:
-                fields = self.display_available_ships()
+                fields = self.display_owned_ships()
 
             if self.company.ships:
                 go_on = pygame.Rect(864, 65, 50, 50)
@@ -195,16 +201,10 @@ class ShipDepot(Screen):
                         if field == "back":
                             self.inspect = None
                             pygame.time.wait(100)
-                        elif field == "buy":
-                            if self.company.buy_ship(self.inspect) is True:
-                                name = random.choice(SHIP_NAMES)
-                                while name in [s.name for s in self.ships]:
-                                    name = random.choice(SHIP_NAMES)
-                                self.ships[self.ships.index(self.inspect)] = ShipBase(self.inspect.type, name, self.inspect.price, self.inspect.capacity, self.inspect.picture)
-                                self.inspect = None
-                                fields.pop(field)
-                                break
-                            pygame.time.wait(100)
+                        elif field == "select":
+                            ship = self.inspect
+                            self.inspect = None
+                            return ship
                         elif field == "go_on":
                             self.back_action()
                         else:

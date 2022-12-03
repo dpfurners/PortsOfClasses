@@ -18,6 +18,7 @@ class ContractScreen(Screen):
         self.bg = bg
         self.company = company
         self.back_action = None
+        self.select_ship_action = None
         self.contract: ContractBase | None = None
         self.fields = {}
 
@@ -26,7 +27,9 @@ class ContractScreen(Screen):
         self.startup_screen()
 
     def select_ship(self):
-        pass
+        ship = self.select_ship_action(True)
+        ship.contract = self.contract
+        return ship
 
     def startup_screen(self):
         click = False
@@ -60,6 +63,7 @@ class ContractScreen(Screen):
                             self.back_action()
                         elif field == "select_ship":
                             self.select_ship()
+                            self.back_action()
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

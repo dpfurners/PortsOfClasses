@@ -17,6 +17,7 @@ class OverviewScreen(Screen):
         self.company = company
 
         self.ship_shop_action = ship_shop
+        self.ship_depot_action = None
         self.harbor_overview: HarborScreen | None = None
 
         self.fields = {}
@@ -75,7 +76,7 @@ class OverviewScreen(Screen):
                         if field == "contracts":
                             pass
                         elif field == "own_ships":
-                            pass
+                            self.ship_depot_action()
                         elif field == "harbors":
                             self.harbor_overview.startup_screen()
                         elif field == "ship_shop":
