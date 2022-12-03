@@ -1,5 +1,5 @@
 import random
-
+import datetime
 import pygame
 import json
 
@@ -66,7 +66,8 @@ class Game:
                 pricing = random.randint(min_pricing, max_pricing) * 100
                 ship_capacities = [ship.capacity for ship in self.company.ships]
                 amount = int(random.randint(min(ship_capacities)/10, max(ship_capacities)) + max(ship_capacities)/10)
-                harbor.available_contracts.append(ContractBase(harbor, destination, pricing, amount, "Rice"))
+                time = datetime.time(minute=random.randint(1, 3), second=random.randint(0, 59))
+                harbor.available_contracts.append(ContractBase(harbor, destination, pricing, amount, "Rice", time))
 
     def setup_screens(self):
         self.screens["ships"]: ShipShop = ShipShop(self.company, self.ships, self.bg, self.screen, self.clock, self.load_contracts)
@@ -85,6 +86,6 @@ class Game:
     def game(self, company_name: str):
         self.company = Company(company_name)
         self.setup_screens()
-        self.screens["overview"].startup_screen()
+        self.screens["ships"].startup_screen()
 
 

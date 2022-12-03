@@ -58,6 +58,7 @@ class HarborScreen(Screen):
             draw_text(contract.destination.name, FONT_DARK, self.screen, x + 5, y + 5, 35)  # Display Harbor Name
             draw_text(f"Quantity: {contract.quantity:_}", FONT_DARK, self.screen, x + 5, y + 30, 20)  # Display Harbor Country
             draw_text(f"Pricing: {contract.total:_}$", FONT_DARK, self.screen, x + 205, y + 30, 20)
+            draw_text(contract.time.strftime('%M:%S'), FONT_DARK, self.screen, x + 350, y + 15, 30)
 
             # draw_text(f"Contracts: {len(harbor.available_contracts)}", FONT_DARK, self.screen, x + 5, y + 50, 30)
             self.fields[contract] = [contract, rect]
@@ -68,6 +69,7 @@ class HarborScreen(Screen):
         if self.inspect is None:
             self.inspect = self.pages[0][0]
         while run:
+            self.fields = {}
             self.screen.blit(self.bg, (0, 0))
             pygame.draw.rect(self.screen, (255, 255, 255), pygame.Rect(50, 50, 900, 600), 0, 5)
 
