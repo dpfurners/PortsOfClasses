@@ -1,0 +1,14 @@
+{
+  "New-Your-Harbor": {
+    "description": "",
+    "capacity": 1,
+    "position": [200, 200],
+    "picture": "./resources/textures/harbor_pictures/harbor_ny.png"
+  },
+  "Houston Ship Channel": {
+    "description": "",
+    "capacity": 3,
+    "position": [300, 300],
+    "picture": "./resources/textures/harbor_pictures/harbor_hsc.png"
+  }
+}

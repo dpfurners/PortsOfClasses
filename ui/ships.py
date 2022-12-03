@@ -18,6 +18,7 @@ class ShipShop(Screen):
         self.bg = bg
         self.company = company
         self.ships = ships
+        self.back_action = None
 
         self.inspect: ShipBase | None = None
 
@@ -102,7 +103,7 @@ class ShipShop(Screen):
                                 break
                             pygame.time.wait(100)
                         elif field == "go_on":
-                            print("go_on")
+                            self.back_action()
                         else:
                             self.inspect = fields[field][0]
                             pygame.time.wait(100)

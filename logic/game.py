@@ -8,8 +8,10 @@ from typing import List
 from common.constants import *
 from ui.main_menu import MainMenu
 from ui.ships import ShipShop
+from ui.overview import OverviewScreen
+from ui.harbor import HarborScreen
 
-from models import Company, ShipBase
+from models import Company, ShipBase, HarborBase
 
 
 class Game:
@@ -26,7 +28,9 @@ class Game:
         self.screens = {}
 
         self.ships: List[ShipBase] = []
+        self.harbors: List[HarborBase] = []
         self.load_ships()
+        self.load_harbors()
 
     def start(self):
         menu = MainMenu(self.screen, self.clock, self.bg, self.font,
@@ -43,8 +47,28 @@ class Game:
             pic = pygame.image.load(data[ship]["picture"])
             self.ships.append(ShipBase(ship, name, data[ship]["price"], data[ship]["capacity"], pic))
 
+    def load_harbors(self, file_name: str = r"./resources/data/harbors.json"):
+        with open(file_name, "r") as file:
+            data = json.load(file)
+        for harbor in data:
+            pic = pygame.image.load(data[harbor]["picture"])
+            self.harbors.append(HarborBase(harbor, data[harbor]["description"], data[harbor]["position"], data[harbor]["capacity"], pic))
+
+    def setup_screens(self, company: Company):
+        self.screens["ships"]: ShipShop = ShipShop(company, self.ships, self.bg, self.screen, self.clock)
+        self.screens["harbors"]: HarborScreen = HarborScreen(company, self.bg, self.screen, self.clock, self.harbors)
+        self.screens["overview"]: OverviewScreen = OverviewScreen(company, self.screen, self.clock, self.screens["ships"].startup_screen)
+
+        # Add Additional data after initializing every Screen
+        self.screens["ships"].back_action = self.screens["overview"].startup_screen
+        self.screens["harbors"].overview_action = self.screens["overview"].startup_screen
+
+        self.screens["overview"].harbor_overview = self.screens["harbors"]
+
     def game(self, company_name: str):
         comp = Company(company_name)
-        self.screens["ships"] = ShipShop(comp, self.ships, self.bg, self.screen, self.clock)
+        print(self.harbors)
+        self.setup_screens(comp)
         self.screens["ships"].startup_screen()
+
 
