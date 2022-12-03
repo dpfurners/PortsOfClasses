@@ -13,6 +13,8 @@ class ShipBase:
         self.capacity: int = capacity
         self.picture: pygame.Surface = picture
 
+        self.contract = None
+
         # self.state: int = 100
         # self.damages: list = []
         # self.position: int = ()

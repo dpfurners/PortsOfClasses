@@ -11,7 +11,7 @@ from ui.ships import ShipShop
 from ui.overview import OverviewScreen
 from ui.harbor import HarborScreen
 
-from models import Company, ShipBase, HarborBase
+from models import Company, ShipBase, HarborBase, ContractBase
 
 
 class Game:
@@ -24,6 +24,8 @@ class Game:
         self.font = pygame.font.SysFont(None, 50)
 
         self.bg = pygame.image.load("./resources/textures/background.jpg", "background")
+
+        self.company: Company | None = None
 
         self.screens = {}
 
@@ -54,10 +56,21 @@ class Game:
             pic = pygame.image.load(data[harbor]["picture"])
             self.harbors.append(HarborBase(harbor, data[harbor]["description"], data[harbor]["country"], data[harbor]["position"], data[harbor]["capacity"], pic))
 
-    def setup_screens(self, company: Company):
-        self.screens["ships"]: ShipShop = ShipShop(company, self.ships, self.bg, self.screen, self.clock)
-        self.screens["harbors"]: HarborScreen = HarborScreen(company, self.bg, self.screen, self.clock, self.harbors)
-        self.screens["overview"]: OverviewScreen = OverviewScreen(company, self.screen, self.clock, self.screens["ships"].startup_screen)
+    def load_contracts(self, min_pricing: int = 1, max_pricing: int = 100):
+        for harbor in self.harbors:
+            for i in range(random.randint(2, 9)):
+                destination = random.choice(self.harbors)
+                while destination == harbor:
+                    destination = random.choice(self.harbors)
+                pricing = random.randint(min_pricing, max_pricing) * 100
+                ship_capacities = [ship.capacity for ship in self.company.ships]
+                amount = int(random.randint(min(ship_capacities)/10, max(ship_capacities)) + max(ship_capacities)/10)
+                harbor.available_contracts.append(ContractBase(destination, pricing, amount, "Rice"))
+
+    def setup_screens(self):
+        self.screens["ships"]: ShipShop = ShipShop(self.company, self.ships, self.bg, self.screen, self.clock, self.load_contracts)
+        self.screens["harbors"]: HarborScreen = HarborScreen(self.company, self.bg, self.screen, self.clock, self.harbors)
+        self.screens["overview"]: OverviewScreen = OverviewScreen(self.company, self.screen, self.clock, self.screens["ships"].startup_screen)
 
         # Add Additional data after initializing every Screen
         self.screens["ships"].back_action = self.screens["overview"].startup_screen
@@ -66,8 +79,8 @@ class Game:
         self.screens["overview"].harbor_overview = self.screens["harbors"]
 
     def game(self, company_name: str):
-        comp = Company(company_name)
-        self.setup_screens(comp)
-        self.screens["ships"].startup_screen()
+        self.company = Company(company_name)
+        self.setup_screens()
+        self.screens["overview"].startup_screen()
 
 

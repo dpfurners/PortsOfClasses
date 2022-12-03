@@ -12,3 +12,5 @@ SHIP_NAMES = ["Albatross", "Althea", "Aurora", "Avalon", "Bethia", "Bismarck", "
 
 OVERVIEW_MENU_X = 15
 OVERVIEW_MENU_Y = 485
+
+HARBORS_PER_PAGE = 9

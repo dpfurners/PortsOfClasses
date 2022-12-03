@@ -19,6 +19,8 @@ class OverviewScreen(Screen):
         self.ship_shop_action = ship_shop
         self.harbor_overview: HarborScreen | None = None
 
+        self.fields = {}
+
         self.anker = pygame.image.load("./resources/textures/pins/anker.png")
         self.boat = pygame.image.load("./resources/textures/pins/boat_pin.png")
         self.contract = pygame.image.load("./resources/textures/contracts.png")
@@ -34,11 +36,13 @@ class OverviewScreen(Screen):
         contracts_btn = pygame.Rect(OVERVIEW_MENU_X, OVERVIEW_MENU_Y + 23, 150, 33)
         self.screen.blit(self.contract, (OVERVIEW_MENU_X + 8, OVERVIEW_MENU_Y + 30))
         draw_text("Contracts", FONT_DARK, self.screen, OVERVIEW_MENU_X + 40, OVERVIEW_MENU_Y + 35, 25)
+        self.fields["contracts"] = [0, contracts_btn]
 
         # Display Own Ships
         own_ships_btn = pygame.Rect(OVERVIEW_MENU_X, OVERVIEW_MENU_Y + 57, 150, 35)
         self.screen.blit(self.boat, (OVERVIEW_MENU_X + 5, OVERVIEW_MENU_Y + 60))
         draw_text("Ships", FONT_DARK, self.screen, OVERVIEW_MENU_X + 40, OVERVIEW_MENU_Y + 65, 25)
+        self.fields["own_ships"] = [0, own_ships_btn]
 
         pygame.draw.rect(self.screen, (255, 255, 255), pygame.Rect(OVERVIEW_MENU_X, OVERVIEW_MENU_Y + 105, 150, 100), 0, 2)
         draw_text("Available:", FONT_DARK, self.screen, OVERVIEW_MENU_X + 5, OVERVIEW_MENU_Y + 110, 30)
@@ -47,28 +51,35 @@ class OverviewScreen(Screen):
         harbor_btn = pygame.Rect(OVERVIEW_MENU_X, OVERVIEW_MENU_Y + 128, 150, 35)
         self.screen.blit(self.anker, (OVERVIEW_MENU_X + 8, OVERVIEW_MENU_Y + 135))
         draw_text("Harbors", FONT_DARK, self.screen, OVERVIEW_MENU_X + 40, OVERVIEW_MENU_Y + 140, 25)
+        self.fields["harbors"] = [0, harbor_btn]
 
         # Display Ship Shop
         ships_shops_btn = pygame.Rect(OVERVIEW_MENU_X, OVERVIEW_MENU_Y + 164, 150, 35)
         self.screen.blit(self.boat, (OVERVIEW_MENU_X + 5, OVERVIEW_MENU_Y + 167))
         draw_text("Ships", FONT_DARK, self.screen, OVERVIEW_MENU_X + 40, OVERVIEW_MENU_Y + 172, 25)
+        self.fields["ship_shop"] = [0, ships_shops_btn]
 
     def startup_screen(self):
-        run = True
-        fields = {}
         click = False
-        while run:
+        while 1:
+            self.fields = {}
             self.screen.blit(self.bg, (0, 0))
 
             self.display_harbors()
             self.load_menu()
 
             mx, my = pygame.mouse.get_pos()
-            # print(fields)
-            for field in fields:
-                if fields[field][1].collidepoint((mx, my)):
+            for field in self.fields:
+                if self.fields[field][1].collidepoint((mx, my)):
                     if click:
-                        pass
+                        if field == "contracts":
+                            pass
+                        elif field == "own_ships":
+                            pass
+                        elif field == "harbors":
+                            self.harbor_overview.startup_screen()
+                        elif field == "ship_shop":
+                            self.ship_shop_action()
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
