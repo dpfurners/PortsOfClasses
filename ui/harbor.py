@@ -73,7 +73,10 @@ class HarborScreen(Screen):
 
             draw_text("Harbors", FONT_DARK, self.screen, 75, 75, 50)
             draw_text(f"Balance: {self.company.get_current_money:_}$", FONT_DARK, self.screen, 500, 75, 25)
-            draw_text(f"Max. Capacity: {max([ship.capacity for ship in self.company.ships if ship.contract is None]):_}", FONT_DARK, self.screen, 500, 100, 25)
+            try:
+                draw_text(f"Max. Capacity: {max([ship.capacity for ship in self.company.ships if ship.contract is None]):_}", FONT_DARK, self.screen, 500, 100, 25)
+            except ValueError:
+                draw_text(f"Max. Capacity: 0", FONT_DARK, self.screen, 500, 100, 25)
             self.display_available_harbors()
             self.display_contracts()
 
