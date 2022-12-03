@@ -1,7 +1,7 @@
 import pygame
 from math import floor
 from ui.screen import Screen
-from models import HarborBase, Company, ShipBase
+from models import HarborBase, Company, ShipBase, ContractBase
 from common.constants import HARBORS_PER_PAGE
 from typing import List
 from common.helpers import draw_text
@@ -15,6 +15,7 @@ class HarborScreen(Screen):
         self.company = company
 
         self.overview_action = None
+        self.contract_action = None
 
         self.harbors: List[HarborBase] = harbors
 
@@ -86,14 +87,17 @@ class HarborScreen(Screen):
             for field in self.fields:
                 if self.fields[field][1].collidepoint((mx, my)):
                     if click:
-                        if field == "back":
-                            self.inspect = None
-                            pygame.time.wait(100)
-                        elif field == "go_on":
-                            self.overview_action()
-                        else:
+                        if isinstance(field[0], HarborBase):
                             self.inspect = self.fields[field][0]
                             pygame.time.wait(100)
+                        elif isinstance(field[0], ContractBase):
+                            self.contract_open(field[0])
+                        else:
+                            if field == "back":
+                                self.inspect = None
+                                pygame.time.wait(100)
+                            elif field == "go_on":
+                                self.overview_action()
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
