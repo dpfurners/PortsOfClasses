@@ -52,7 +52,7 @@ class Game:
             data = json.load(file)
         for harbor in data:
             pic = pygame.image.load(data[harbor]["picture"])
-            self.harbors.append(HarborBase(harbor, data[harbor]["description"], data[harbor]["position"], data[harbor]["capacity"], pic))
+            self.harbors.append(HarborBase(harbor, data[harbor]["description"], data[harbor]["country"], data[harbor]["position"], data[harbor]["capacity"], pic))
 
     def setup_screens(self, company: Company):
         self.screens["ships"]: ShipShop = ShipShop(company, self.ships, self.bg, self.screen, self.clock)

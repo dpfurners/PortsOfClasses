@@ -1,14 +1,16 @@
 {
   "New-Your-Harbor": {
     "description": "",
+    "country": "America",
     "capacity": 1,
-    "position": [200, 200],
+    "position": [265, 275],
     "picture": "./resources/textures/harbor_pictures/harbor_ny.png"
   },
-  "Houston Ship Channel": {
+  "Houston-Ship-Channel": {
     "description": "",
+    "country": "America",
     "capacity": 3,
-    "position": [300, 300],
+    "position": [205, 320],
     "picture": "./resources/textures/harbor_pictures/harbor_hsc.png"
   }
 }
