@@ -66,7 +66,7 @@ class Game:
                 pricing = random.randint(min_pricing, max_pricing) * 100
                 ship_capacities = [ship.capacity for ship in self.company.ships]
                 amount = int(random.randint(min(ship_capacities)/10, max(ship_capacities)) + max(ship_capacities)/10)
-                harbor.available_contracts.append(ContractBase(destination, pricing, amount, "Rice"))
+                harbor.available_contracts.append(ContractBase(harbor, destination, pricing, amount, "Rice"))
 
     def setup_screens(self):
         self.screens["ships"]: ShipShop = ShipShop(self.company, self.ships, self.bg, self.screen, self.clock, self.load_contracts)
