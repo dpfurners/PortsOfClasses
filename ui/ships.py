@@ -42,9 +42,9 @@ class ShipShop(Screen):
         fields = {}
         pygame.draw.rect(self.screen, (0, 161, 255), pygame.Rect(75, 125, 845, 520), 0, 3)
 
-        back = pygame.Rect(864, 130, 50, 50)
+        back = pygame.Rect(864, 65, 50, 50)
         # pygame.draw.rect(self.screen, (255, 161, 0), back, 0, 3)
-        self.screen.blit(pygame.image.load("./resources/textures/cross.png"), (864, 130))
+        self.screen.blit(pygame.image.load("./resources/textures/cross.png"), (864, 65))
         fields["back"] = [0, back]
 
         draw_text(ship.name, FONT_DARK, self.screen, 80, 130, 60)
@@ -71,11 +71,20 @@ class ShipShop(Screen):
 
             draw_text("Boat-Sales", FONT_DARK, self.screen, 75, 75, 50)
             draw_text(f"Balance: {self.company.get_current_money:_}$", FONT_DARK, self.screen, 500, 75, 50)
+
             if isinstance(self.inspect, ShipBase):
                 fields = self.display_ship(self.inspect)
             else:
                 fields = self.display_available_ships()
+
+            if self.company.ships:
+                go_on = pygame.Rect(864, 65, 50, 50)
+                self.screen.blit(pygame.image.load("./resources/textures/cross.png"), (864, 65))
+                # pygame.draw.rect(self.screen, (255, 161, 0), go_on, 0, 2)
+                fields["go_on"] = [0, go_on]
+
             mx, my = pygame.mouse.get_pos()
+            # print(fields)
             for field in fields:
                 if fields[field][1].collidepoint((mx, my)):
                     if click:
@@ -89,7 +98,11 @@ class ShipShop(Screen):
                                     name = random.choice(SHIP_NAMES)
                                 self.ships[self.ships.index(self.inspect)] = ShipBase(self.inspect.type, name, self.inspect.price, self.inspect.capacity, self.inspect.picture)
                                 self.inspect = None
+                                fields.pop(field)
+                                break
                             pygame.time.wait(100)
+                        elif field == "go_on":
+                            print("go_on")
                         else:
                             self.inspect = fields[field][0]
                             pygame.time.wait(100)
