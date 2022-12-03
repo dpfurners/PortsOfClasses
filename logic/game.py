@@ -10,7 +10,7 @@ from ui.main_menu import MainMenu
 from ui.ships import ShipShop, ShipDepot
 from ui.overview import OverviewScreen
 from ui.harbor import HarborScreen
-from ui.contracts import ContractScreen
+from ui.contracts import ContractScreen, ContractOverview
 
 from models import Company, ShipBase, HarborBase, ContractBase
 
@@ -75,17 +75,21 @@ class Game:
         self.screens["harbors"]: HarborScreen = HarborScreen(self.company, self.bg, self.screen, self.clock, self.harbors)
         self.screens["overview"]: OverviewScreen = OverviewScreen(self.company, self.screen, self.clock, self.screens["ships"].startup_screen)
         self.screens["contracts"]: ContractScreen = ContractScreen(self.company, self.bg, self.screen, self.clock)
+        self.screens["contract_overview"]: ContractOverview = ContractOverview(self.company, self.bg, self.screen, self.clock)
 
         # Add Additional data after initializing every Screen
         self.screens["ships"].back_action = self.screens["overview"].startup_screen
         self.screens["ship_depot"].back_action = self.screens["overview"].startup_screen
         self.screens["harbors"].overview_action = self.screens["overview"].startup_screen
+        self.screens["contract_overview"].back_action = self.screens["overview"].startup_screen
         self.screens["harbors"].contract_action = self.screens["contracts"].display_contract
 
         self.screens["overview"].harbor_overview = self.screens["harbors"]
         self.screens["overview"].ship_depot_action = self.screens["ship_depot"].startup_screen
+        self.screens["overview"].contract_overview = self.screens["contract_overview"].startup_screen
         self.screens["contracts"].back_action = self.screens["harbors"].startup_screen
         self.screens["contracts"].select_ship_action = self.screens["ship_depot"].startup_screen
+        self.screens["contracts"].harbors = self.harbors
 
     def game(self, company_name: str):
         self.company = Company(company_name)

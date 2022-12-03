@@ -4,6 +4,7 @@ class Company:
         self.ships = []
         self.ccs = []
         self._money: int = 75000
+        self.done_contracts: list = []
 
     @property
     def name(self):

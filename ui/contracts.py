@@ -15,11 +15,12 @@ from common.constants import SHIP_NAMES, SHIPPING_ENDED_EVENT
 
 class ContractScreen(Screen):
     def __init__(self, company: Company, bg, screen: pygame.Surface, clock: pygame.time.Clock):
-        super().__init__("ship_screen", screen, clock)
+        super().__init__("contract_screen", screen, clock)
         self.bg = bg
         self.company = company
         self.back_action = None
         self.select_ship_action = None
+        self.harbors = None
         self.contract: ContractBase | None = None
         self.fields = {}
 
@@ -30,6 +31,7 @@ class ContractScreen(Screen):
     def select_ship(self):
         ship = self.select_ship_action(True)
         ship.contract = self.contract
+        ship.contract.source.available_contracts.remove(ship.contract)
         return ship
 
     def startup_screen(self):
@@ -41,8 +43,10 @@ class ContractScreen(Screen):
 
             draw_text("Contract", FONT_DARK, self.screen, 75, 75, 50)
             draw_text(f"Balance: {self.company.get_current_money:_}$", FONT_DARK, self.screen, 500, 75, 25)
-            draw_text(f"Max. Capacity: {max([ship.capacity for ship in self.company.ships if ship.contract is None]):_}", FONT_DARK, self.screen, 500, 100, 25)
-
+            try:
+                draw_text(f"Max. Capacity: {max([ship.capacity for ship in self.company.ships if ship.contract is None]):_}", FONT_DARK, self.screen, 500, 100, 25)
+            except ValueError:
+                draw_text(f"Max. Capacity: 0", FONT_DARK, self.screen, 500, 100, 25)
             pygame.draw.rect(self.screen, (0, 161, 255), pygame.Rect(75, 125, 850, 500), 0, 5)
             draw_text(f"{self.contract.source.name} -> {self.contract.destination.name}", FONT_DARK, self.screen, 80, 130, 50)
             draw_text(f"Quantity: {self.contract.quantity:_}", FONT_DARK, self.screen, 85, 170, 35)
@@ -80,3 +84,47 @@ class ContractScreen(Screen):
 
             pygame.display.update()
             self.clock.tick(30)
+
+
+class ContractOverview(Screen):
+    def __init__(self, company: Company, bg, screen: pygame.Surface, clock: pygame.time.Clock):
+        super().__init__("contract_overview", screen, clock)
+        self.bg = bg
+        self.company = company
+        self.back_action = None
+        self.fields = {}
+
+    def startup_screen(self):
+        run = True
+        click = False
+        while run:
+            self.fields = {}
+            self.screen.blit(self.bg, (0, 0))
+            pygame.draw.rect(self.screen, (255, 255, 255), pygame.Rect(50, 50, 900, 600), 0, 5)
+
+            draw_text("Contracts", FONT_DARK, self.screen, 75, 75, 50)
+            draw_text(f"Balance: {self.company.get_current_money:_}$", FONT_DARK, self.screen, 500, 75, 40)
+
+            back = new_button(self.screen, (864, 65), (50, 50), picture="./resources/textures/cross.png")
+            self.fields["back"] = [0, back]
+
+            mx, my = pygame.mouse.get_pos()
+            # print(fields)
+            for field in self.fields:
+                if self.fields[field][1].collidepoint((mx, my)):
+                    if click:
+                        if field == "back":
+                            self.back_action()
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    click = True
+                if event.type == pygame.MOUSEBUTTONUP:
+                    click = False
+
+            pygame.display.update()
+            self.clock.tick(60)
+

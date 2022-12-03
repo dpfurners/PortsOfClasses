@@ -18,6 +18,7 @@ class OverviewScreen(Screen):
 
         self.ship_shop_action = ship_shop
         self.ship_depot_action = None
+        self.contract_overview = None
         self.harbor_overview: HarborScreen | None = None
 
         self.fields = {}
@@ -74,7 +75,7 @@ class OverviewScreen(Screen):
                 if self.fields[field][1].collidepoint((mx, my)):
                     if click:
                         if field == "contracts":
-                            pass
+                            self.contract_overview()
                         elif field == "own_ships":
                             self.ship_depot_action()
                         elif field == "harbors":
