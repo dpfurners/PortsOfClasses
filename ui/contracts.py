@@ -25,6 +25,9 @@ class ContractScreen(Screen):
         self.contract = contract
         self.startup_screen()
 
+    def select_ship(self):
+        pass
+
     def startup_screen(self):
         click = False
         while 1:
@@ -43,6 +46,10 @@ class ContractScreen(Screen):
             draw_text(f"Goods: {self.contract.goods}", FONT_DARK, self.screen, 85, 230, 35)
             draw_text(f"Time: {self.contract.time.strftime('%M:%S')}", FONT_DARK, self.screen, 85, 260, 35)
 
+            select_ship = pygame.Rect(820, 505, 50, 50)
+            self.screen.blit(pygame.image.load("./resources/textures/sign.png"), (820, 505))
+            self.fields["select_ship"] = [0, select_ship]
+
             go_on = pygame.Rect(864, 65, 50, 50)
             self.screen.blit(pygame.image.load("./resources/textures/cross.png"), (864, 65))
             # pygame.draw.rect(self.screen, (255, 161, 0), go_on, 0, 2)
@@ -54,6 +61,8 @@ class ContractScreen(Screen):
                     if click:
                         if field == "go_on":
                             self.back_action()
+                        elif field == "select_ship":
+                            self.select_ship()
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
