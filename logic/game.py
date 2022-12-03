@@ -59,15 +59,16 @@ class Game:
 
     def load_contracts(self, min_pricing: int = 1, max_pricing: int = 100):
         for harbor in self.harbors:
-            for i in range(random.randint(2, 9)):
-                destination = random.choice(self.harbors)
-                while destination == harbor:
+            if not harbor.available_contracts:
+                for i in range(random.randint(2, 8)):
                     destination = random.choice(self.harbors)
-                pricing = random.randint(min_pricing, max_pricing) * 100
-                ship_capacities = [ship.capacity for ship in self.company.ships]
-                amount = int(random.randint(min(ship_capacities)/10, max(ship_capacities)) + max(ship_capacities)/10)
-                time = datetime.time(minute=random.randint(1, 3), second=random.randint(0, 59))
-                harbor.available_contracts.append(ContractBase(harbor, destination, pricing, amount, "Rice", time))
+                    while destination == harbor:
+                        destination = random.choice(self.harbors)
+                    pricing = random.randint(min_pricing, max_pricing) * 100
+                    ship_capacities = [ship.capacity for ship in self.company.ships]
+                    amount = int(random.randint(min(ship_capacities)/10, max(ship_capacities)) + max(ship_capacities)/10)
+                    time = datetime.time(minute=random.randint(1, 3), second=random.randint(0, 59))
+                    harbor.available_contracts.append(ContractBase(harbor, destination, pricing, amount, "Rice", time))
 
     def setup_screens(self):
         self.screens["ships"]: ShipShop = ShipShop(self.company, self.ships, self.bg, self.screen, self.clock, self.load_contracts)

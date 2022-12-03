@@ -161,11 +161,29 @@ class ShipDepot(Screen):
 
         draw_text(f"Capacity: {ship.capacity:_}", FONT_DARK, self.screen, 85, 570, 40)
         draw_text(f"Price: {ship.price:_}$", FONT_DARK, self.screen, 85, 610, 40)
+
+        sell = new_button(self.screen, (650, 200), (200, 50), color=(255, 161, 0))
+        draw_text("Sell", FONT_DARK, self.screen, 655, 210, 50)
+        self.fields["sell"] = [0, sell]
+
         if ship.contract:
             draw_text(f"Contract: {ship.contract.source.name} -> {ship.contract.destination.name}", FONT_DARK, self.screen, 500, 570, 20)
             draw_text(f"Total: {ship.contract.total}", FONT_DARK, self.screen, 500, 590, 15)
             draw_text(f"Quantity: {ship.contract.quantity}", FONT_DARK, self.screen, 500, 600, 15)
             draw_text(f"Time: {ship.contract.time.strftime('%M:%S')}", FONT_DARK, self.screen, 500, 610, 15)
+
+            if ship.contract.done():
+                draw_text("Done", FONT_DARK, self.screen, 655, 150, 60)
+            else:
+                draw_text(ship.contract.strfdelta(), FONT_DARK, self.screen, 655, 150, 60)
+
+            button = new_button(self.screen, (650, 255), (200, 50), color=(255, 161, 0))
+            if ship.contract.done():
+                draw_text("Claim", FONT_DARK, self.screen, 655, 265, 50)
+                self.fields["claim"] = [0, button]
+            else:
+                draw_text("Cancel", FONT_DARK, self.screen, 655, 265, 50)
+                self.fields["cancel"] = [0, button]
 
         if self.select:
             select = new_button(self.screen, (720, 550), (200, 100), picture="./resources/textures/arrow.png")
@@ -202,6 +220,18 @@ class ShipDepot(Screen):
                             return ship
                         elif field == "go_on":
                             self.back_action()
+                        elif field == "claim":
+                            self.company.done_contracts.append(self.inspect.contract)
+                            self.inspect.contract = None
+                            self.inspect = None
+                            pygame.time.wait(100)
+                        elif field == "cancel":
+                            self.inspect.contract = None
+                            self.inspect = None
+                        elif field == "sell":
+                            self.company.sell_ship(self.inspect)
+                            self.inspect = None
+                            pygame.time.wait(100)
                         else:
                             self.inspect = self.fields[field][0]
                             pygame.time.wait(100)

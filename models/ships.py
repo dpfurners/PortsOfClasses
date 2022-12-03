@@ -8,7 +8,7 @@ class ShipBase:
         self.type: str = type
         self._name: str = name
         self._owner: Company | None = None
-        self.value: int | None = None
+        self.value: int | None = price
         self.price: int = price
         self.capacity: int = capacity
         self.picture: pygame.Surface = picture

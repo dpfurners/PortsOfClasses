@@ -123,7 +123,7 @@ class ContractOverview(Screen):
             draw_text(f"{contract.source} -> {contract.destination}", FONT_DARK, self.screen, x + 5, y + 5, 35)  # Display Ship Name
             draw_text(f"Total: {contract.total}", FONT_DARK, self.screen, x + 5, y + 30, 20)  # Display Ship Type
 
-            self.fields[ship] = [ship, rect]
+            self.fields[contract] = [contract, rect]
 
     def startup_screen(self):
         run = True
