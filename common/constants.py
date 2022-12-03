@@ -1,3 +1,5 @@
+import pygame as _pg
+
 
 GAME_TITLE = "PortsOfClasses"
 WINDOW_WIDTH = 1000
@@ -14,3 +16,8 @@ OVERVIEW_MENU_X = 15
 OVERVIEW_MENU_Y = 485
 
 HARBORS_PER_PAGE = 9
+
+
+# Events
+SHIPPING_ENDED_EVENT = _pg.USEREVENT + 1
+

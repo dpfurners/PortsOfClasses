@@ -1,6 +1,7 @@
 import pygame
 import sys
 import random
+import datetime
 from math import floor
 
 from typing import List
@@ -9,7 +10,7 @@ from ui.screen import Screen
 from models import Company, ShipBase, ContractBase
 from common.helpers import draw_text, new_button
 from common.colors import FONT_DARK, WHITE
-from common.constants import SHIP_NAMES
+from common.constants import SHIP_NAMES, SHIPPING_ENDED_EVENT
 
 
 class ContractScreen(Screen):
@@ -63,6 +64,9 @@ class ContractScreen(Screen):
                             self.back_action()
                         elif field == "select_ship":
                             self.select_ship()
+                            pygame.time.set_timer(SHIPPING_ENDED_EVENT, self.contract.time.microsecond*100)
+                            self.contract.started = datetime.datetime.now()
+                            self.contract = None
                             self.back_action()
 
             for event in pygame.event.get():

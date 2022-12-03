@@ -141,7 +141,10 @@ class ShipDepot(Screen):
                 draw_text(f"Capacity: {ship.capacity:_}", FONT_DARK, self.screen, x+5, y+50, 30)
                 draw_text(f"Price: {ship.price:_}$", FONT_DARK, self.screen, x+5, y+72.5, 35)
                 if ship.contract:
-                    draw_text(ship.contract.time.strftime("%M:%S"), FONT_DARK, self.screen, x+300, y+30, 60)
+                    if ship.contract.done():
+                        draw_text("Done", FONT_DARK, self.screen, x + 300, y + 30, 60)
+                    else:
+                        draw_text(ship.contract.strfdelta(), FONT_DARK, self.screen, x+300, y+30, 60)
                 fields[ship] = [ship, rect]
         return fields
 
