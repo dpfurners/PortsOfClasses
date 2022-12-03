@@ -3,7 +3,7 @@ class Company:
         self._name: str = name
         self.ships = []
         self.ccs = []
-        self._money: int = 75000
+        self._money: int = 10000000
         self.done_contracts: list = []
 
     @property
