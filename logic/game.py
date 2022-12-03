@@ -10,6 +10,7 @@ from ui.main_menu import MainMenu
 from ui.ships import ShipShop
 from ui.overview import OverviewScreen
 from ui.harbor import HarborScreen
+from ui.contracts import ContractScreen
 
 from models import Company, ShipBase, HarborBase, ContractBase
 
@@ -71,12 +72,15 @@ class Game:
         self.screens["ships"]: ShipShop = ShipShop(self.company, self.ships, self.bg, self.screen, self.clock, self.load_contracts)
         self.screens["harbors"]: HarborScreen = HarborScreen(self.company, self.bg, self.screen, self.clock, self.harbors)
         self.screens["overview"]: OverviewScreen = OverviewScreen(self.company, self.screen, self.clock, self.screens["ships"].startup_screen)
+        self.screens["contracts"]: ContractScreen = ContractScreen(self.company, self.bg, self.screen, self.clock)
 
         # Add Additional data after initializing every Screen
         self.screens["ships"].back_action = self.screens["overview"].startup_screen
         self.screens["harbors"].overview_action = self.screens["overview"].startup_screen
+        self.screens["harbors"].contract_action = self.screens["contracts"].display_contract
 
         self.screens["overview"].harbor_overview = self.screens["harbors"]
+        self.screens["contracts"].back_action = self.screens["harbors"].startup_screen
 
     def game(self, company_name: str):
         self.company = Company(company_name)

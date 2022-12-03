@@ -87,11 +87,11 @@ class HarborScreen(Screen):
             for field in self.fields:
                 if self.fields[field][1].collidepoint((mx, my)):
                     if click:
-                        if isinstance(field[0], HarborBase):
+                        if isinstance(field, HarborBase):
                             self.inspect = self.fields[field][0]
                             pygame.time.wait(100)
-                        elif isinstance(field[0], ContractBase):
-                            self.contract_open(field[0])
+                        elif isinstance(field, ContractBase):
+                            self.contract_action(field)
                         else:
                             if field == "back":
                                 self.inspect = None
